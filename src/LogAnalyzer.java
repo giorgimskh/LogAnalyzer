@@ -39,6 +39,15 @@ public class LogAnalyzer{
             }
         }
 
+        //permission verification
+        System.out.println("🔒 Checking system permissions...");
+        if (!PermissionChecker.verifyPermissions(inputFile, outputFile)) {
+            // Permission check message is printed inside the PermissionChecker
+            System.exit(1);
+        }
+
+        System.out.println("✅ Security check passed.");
+
 
 
 
