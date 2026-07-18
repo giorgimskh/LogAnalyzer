@@ -3,7 +3,7 @@ import java.io.File;
 public class PermissionChecker {
     public static boolean verifyPermissions(File inputFile, File outputFile) {
         if(!inputFile.canRead()){
-            System.err.println("❌ Permission check failed: Input file is not readable: \" + inputFile.getPath()");
+            System.err.println("❌ Permission check failed: Input file is not readable: " + inputFile.getPath());
             return false;
         }
 
@@ -11,24 +11,28 @@ public class PermissionChecker {
             System.err.println("❌ Permission check failed: Output file is not writable: " + outputFile.getPath());
             return false;
         }else {
-            File parent = outputFile.getParentFile();
-            if (parent == null) {
-                parent = new File(".");
-            }
-            // Traverse up to find the first parent directory that exists
-            File existingParent = parent;
-            while (existingParent != null && !existingParent.exists()) {
-                existingParent = existingParent.getParentFile();
-            }
-            if (existingParent == null) {
-                existingParent = new File(".");
-            }
-            if (!existingParent.canWrite()) {
-                System.err.println("❌ Permission check failed: Output directory/parent is not writable: " + existingParent.getPath());
-                return false;
-            }
+           File existingParent= findExistingParent(outputFile);
+
+           if(!existingParent.canWrite()){
+               System.err.println("❌ Permission check failed: Parent directory is not writable: " + existingParent.getPath());
+               return false;
+           }
         }
 
         return true;
+    }
+
+    private static File findExistingParent(File file){
+        File parent=file.getParentFile();
+
+        if(parent==null){
+            return  new File(".");
+        }
+
+        while(parent!=null && !parent.exists()){
+            parent=parent.getParentFile();
+        }
+
+        return (parent!=null) ? parent:new File(".");
     }
 }
