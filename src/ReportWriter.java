@@ -5,7 +5,7 @@ public class ReportWriter implements AutoCloseable{
     private final FileOutputStream fos;
     private final BufferedWriter writer;
 
-    public ReportWriter(File outputFile) throws FileNotFoundException {
+    public ReportWriter(File outputFile) throws IOException {
         this.fos=new FileOutputStream(outputFile);
 
         //The writer keeps text inside a quick-access temporary memory block
@@ -18,6 +18,7 @@ public class ReportWriter implements AutoCloseable{
 
     public  void writeErrorLine(String line) throws IOException {
         writer.write("[CRITICAL ERROR] -> " + line);
+        writer.newLine();
 
         //Empties Java's internal memory buffer down to the OS cache.
         //if power goes off,data lost still
@@ -35,5 +36,30 @@ public class ReportWriter implements AutoCloseable{
         }
     }
 
+    public void writeSummary(long totalLines, long infoCount, long warningCount, long errorCount) throws IOException {
+        writer.write("===============================");
+        writer.newLine();
+        writer.write("        LOG ANALYSIS SUMMARY");
+        writer.newLine();
+        writer.write("===============================");
+        writer.newLine();
+        writer.write("Total Log Lines Processed: " + totalLines);
+        writer.newLine();
+        writer.write("INFO Messages: " + infoCount);
+        writer.newLine();
+        writer.write("WARNING Messages: " + warningCount);
+        writer.newLine();
+        writer.write("ERROR Messages: " + errorCount);
+        writer.newLine();
+        writer.write("===============================");
+        writer.newLine();
+        writer.flush();
+    }
 
+
+    @Override
+    public void close() throws IOException {
+        if(writer!=null)
+            writer.close();
+    }
 }
