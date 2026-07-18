@@ -31,10 +31,10 @@ public class LogAnalyzer{
         }
 
         //output validation
-        File parentDir=outputFile.getParentFile();
-        if( parentDir!=null && !parentDir.exists()){
-            if(!parentDir.mkdir()){
-                System.err.println("Can't create output file directory!");
+        File parentDir = outputFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            if (!parentDir.mkdirs() && !parentDir.exists()) {
+                System.err.println("❌ Failed to create output directory: " + parentDir.getPath());
                 System.exit(1);
             }
         }
