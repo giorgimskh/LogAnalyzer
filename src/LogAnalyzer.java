@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 
 public class LogAnalyzer{
     public static void main(String[] args){
@@ -48,11 +49,33 @@ public class LogAnalyzer{
 
         System.out.println("✅ Security check passed.");
 
+        //Log Analyze Part
+        System.out.println("⚡ Starting log analysis on: " + inputPath);
 
+        ReportWriter reportWriter= null;
+        try {
+            reportWriter = new ReportWriter(outputFile);
 
+            LogParser parser=new LogParser();
+            LogParser.AnalysisResult result = parser.parseLogFile(inputFile,reportWriter);
 
+            reportWriter.writeSummary(
+                    result.totalLines,
+                    result.infoCount,
+                    result.warningCount,
+                    result.errorCount
+            );
+
+            System.out.println("🎉 Safe analysis complete! Hardware sync executed. Report saved to: " + outputPath);
+
+        } catch (IOException e) {
+            System.err.println("❌ Critical I/O Error during processing:");
+            System.err.println("   Input file:  " + inputFile.getAbsolutePath());
+            System.err.println("   Output file: " + outputFile.getAbsolutePath());
+            System.err.println("   Details:     " + e.getMessage());
+            System.exit(1);
+        }
     }
-
 
     private static void printUsage(){
         System.out.println("Secure OS-Level Log Analyzer");
