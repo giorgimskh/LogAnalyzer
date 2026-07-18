@@ -20,35 +20,34 @@ public class LogParser {
 
     }
 
-    public AnalysisResult logParser(File inputFile, ReportWriter reportWriter) {
+    public AnalysisResult logParser(File inputFile, ReportWriter reportWriter) throws IOException{
         long totalLines = 0;
         long infoCount = 0;
         long warningCount = 0;
         long errorCount = 0;
         long unclassifiedCount=0;
 
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8));
+        try (
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8))) {
             String line;
 
-            while((line = reader.readLine()) !=null){
+            while ((line = reader.readLine()) != null) {
                 totalLines++;
 
-                line=line.toUpperCase();
+                line = line.toUpperCase();
 
-                if(line.contains("INFO:")) {
+                if (line.contains("INFO:")) {
                     infoCount++;
-                }else if(line.contains("WARNING:")){
+                } else if (line.contains("WARNING:")) {
                     warningCount++;
-                }else if(line.contains("EROR:")){
+                } else if (line.contains("EROR:")) {
                     errorCount++;
                     reportWriter.writeErrorLine(line);
-                }else{
+                } else {
                     unclassifiedCount++;
                 }
             }
-
-            return new AnalysisResult(totalLines,infoCount,warningCount,errorCount,unclassifiedCount);
+        }
+        return new AnalysisResult(totalLines,infoCount,warningCount,errorCount,unclassifiedCount);
     }
-
 }
