@@ -20,7 +20,7 @@ public class LogParser {
 
     }
 
-    public AnalysisResult logParser(File inputFile, ReportWriter reportWriter) throws IOException{
+    public AnalysisResult parseLogFile(File inputFile, ReportWriter reportWriter) throws IOException{
         long totalLines = 0;
         long infoCount = 0;
         long warningCount = 0;
