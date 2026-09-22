@@ -40,7 +40,7 @@ public class LogParser {
                     infoCount++;
                 } else if (line.contains("WARNING:")) {
                     warningCount++;
-                } else if (line.contains("EROR:")) {
+                } else if (line.contains("ERROR:")) {
                     errorCount++;
                     reportWriter.writeErrorLine(line);
                 } else {

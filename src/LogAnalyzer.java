@@ -60,7 +60,8 @@ public class LogAnalyzer {
                     result.totalLines,
                     result.infoCount,
                     result.warningCount,
-                    result.errorCount
+                    result.errorCount,
+                    result.unclassifiedCount
             );
 
             System.out.println("🎉 Safe analysis complete! Hardware sync executed. Report saved to: " + outputPath);

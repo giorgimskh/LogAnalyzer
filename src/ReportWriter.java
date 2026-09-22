@@ -36,7 +36,7 @@ public class ReportWriter implements AutoCloseable{
         }
     }
 
-    public void writeSummary(long totalLines, long infoCount, long warningCount, long errorCount) throws IOException {
+    public void writeSummary(long totalLines, long infoCount, long warningCount, long errorCount, long unclassifiedCount) throws IOException {
         writer.write("===============================");
         writer.newLine();
         writer.write("        LOG ANALYSIS SUMMARY");
@@ -50,6 +50,8 @@ public class ReportWriter implements AutoCloseable{
         writer.write("WARNING Messages: " + warningCount);
         writer.newLine();
         writer.write("ERROR Messages: " + errorCount);
+        writer.newLine();
+        writer.write("Unclassified Lines: " + unclassifiedCount);
         writer.newLine();
         writer.write("===============================");
         writer.newLine();
